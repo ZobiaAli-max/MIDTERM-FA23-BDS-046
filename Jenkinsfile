@@ -83,11 +83,18 @@ PY
     }
 
     post {
-        success {
-            echo 'Pipeline completed successfully'
-        }
-        failure {
-            echo 'Pipeline failed'
-        }
+    always {
+        emailext(
+            to: 'qasimalik@gmail.com',
+            from: 'zobiaakbarali@gmail.com',
+            subject: "FA23-BDS-046 - Jenkins Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+            body: """Student ID: FA23-BDS-046
+Build Number: ${env.BUILD_NUMBER}
+Build Status: ${currentBuild.currentResult}
+Git Commit: ${env.GIT_COMMIT}
+Build URL: ${env.BUILD_URL}
+
+Automated Jenkins CI/CD Pipeline Notification."""
+        )
     }
 }
